@@ -1,0 +1,162 @@
+# ==========================================
+#  zaraan星火之域 · 主菜单 (分类导航)
+#  指令: /menu  /菜单  /cd
+#  也可以用快捷栏的「服务器菜单」物品右键打开
+#  没有物品时输入 /zc menu 可获得
+# ==========================================
+open_command:
+  - menu
+  - 菜单
+  - cd
+register_command: true
+
+size: 45
+menu_title: '&8zaraan星火之域 &7» &6主菜单'
+
+items:
+
+  border:
+    material: GRAY_STAINED_GLASS_PANE
+    display_name: ' '
+    slots:
+      - 0-9
+      - 17-18
+      - 26-27
+      - 35-36
+      - 37-44
+
+  # ---------- 分类入口 ----------
+  shop:
+    material: EMERALD
+    slot: 11
+    display_name: '&a&l商店中心'
+    lore:
+      - '&7系统商店买卖物品'
+      - '&7一键出售背包 / 箱子商店开店教程'
+      - ''
+      - '&7金币: &6%zaraancore_balance%'
+      - '&e点击进入'
+    left_click_commands:
+      - '[openguimenu] shop_menu'
+
+  fun:
+    material: FIREWORK_ROCKET
+    slot: 13
+    display_name: '&6&l玩法中心'
+    lore:
+      - '&7任务 / 抽奖箱 / 称号 / 粒子 / 签到'
+      - ''
+      - '&e点击进入'
+    left_click_commands:
+      - '[openguimenu] fun_menu'
+
+  tp:
+    material: COMPASS
+    slot: 15
+    display_name: '&b&l传送中心'
+    lore:
+      - '&7主城 / 家 / 死亡点 / 传送到玩家'
+      - '&7玩家传送点(自定义)'
+      - ''
+      - '&e点击进入'
+    left_click_commands:
+      - '[openguimenu] warps_menu'
+
+  me:
+    material: PLAYER_HEAD
+    skull: '%player%'
+    slot: 21
+    display_name: '&d&l个人中心'
+    lore:
+      - '&7皮肤披风 / 背包 / 领地 / 排行榜'
+      - '&7我的信息'
+      - ''
+      - '&7金币: &6%zaraancore_balance%'
+      - '&e点击进入'
+    left_click_commands:
+      - '[openguimenu] me_menu'
+
+  misc:
+    material: NETHER_STAR
+    slot: 23
+    display_name: '&9&l其他功能'
+    lore:
+      - '&7网页地图 / 语音聊天 / 帮助教程'
+      - ''
+      - '&e点击进入'
+    left_click_commands:
+      - '[openguimenu] misc_menu'
+
+  info:
+    material: BOOK
+    slot: 31
+    display_name: '&7&l服务器信息'
+    lore:
+      - '&7服务器: &6zaraan星火之域'
+      - '&7在线: &f%server_online% &7/ &f%server_max_players%'
+      - '&7延迟: &f%player_ping%ms'
+      - '&7金币: &6%zaraancore_balance%'
+      - '&7在线时长: &f%playerTime_total%'
+
+  # ---------- 常用快捷入口 ----------
+  title_shop:
+    material: NAME_TAG
+    slot: 19
+    display_name: '&d&l称号商店'
+    lore:
+      - '&7共 &f16 &7个称号可选'
+      - '&7从 &f萌新(免费) &7到 &6zaraan星火(10000)&7'
+      - '&7称号显示在聊天和 TAB 里'
+      - ''
+      - '&7金币: &6%zaraancore_balance%'
+      - '&e点击选购'
+    left_click_commands:
+      - '[player] plt open'
+      - '[close]'
+
+  signin_quick:
+    material: CLOCK
+    slot: 25
+    display_name: '&e&l每日签到'
+    lore:
+      - '&7每天签到领金币'
+      - '&7连续签到有额外奖励'
+      - ''
+      - '&e点击签到'
+    left_click_commands:
+      - '[player] psi'
+      - '[close]'
+
+  rtp_quick:
+    material: ENDER_PEARL
+    slot: 23
+    display_name: '&c&l随机传送'
+    lore:
+      - '&7想去野外探险? 一键传送到 800-5000 格外的安全点'
+      - '&7无需准备,冷却 3 分钟'
+      - ''
+      - '&7金币: &6免费'
+      - '&e点击随机传送'
+    left_click_commands:
+      - '[player] rtp'
+      - '[close]'
+
+  team_quick:
+    material: IRON_SWORD
+    slot: 29
+    display_name: '&6&l组队系统'
+    lore:
+      - '&7和朋友一起冒险'
+      - '&7建队 / 邀请 / 队伍聊天'
+      - ''
+      - '&e点击打开组队'
+    left_click_commands:
+      - '[player] team'
+      - '[close]'
+
+  close:
+    material: BARRIER
+    slot: 40
+    display_name: '&c&l关闭菜单'
+    left_click_commands:
+      - '[close]'

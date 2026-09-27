@@ -1,0 +1,64 @@
+# 商店中心
+open_command:
+  - shopmenu
+register_command: true
+size: 45
+menu_title: '&8zaraan星火之域 &7» &a商店中心'
+
+items:
+  border:
+    material: GRAY_STAINED_GLASS_PANE
+    display_name: ' '
+    slots:
+      - 0-9
+      - 17-18
+      - 26-27
+      - 35-36
+      - 37-44
+
+  sys:
+    material: EMERALD
+    slot: 12
+    display_name: '&a&l系统商店'
+    lore:
+      - '&7向服务器买卖物品'
+      - '&7分类: 资源 / 方块 / 农业 / 战斗 / 附魔…'
+      - ''
+      - '&7金币: &6%zaraancore_balance%'
+      - '&e点击打开'
+    left_click_commands:
+      - '[player] shop'
+      - '[close]'
+
+  sell:
+    material: HOPPER
+    slot: 14
+    display_name: '&6&l出售物品'
+    lore:
+      - '&7把背包里的东西卖成金币'
+      - '&7多种出售方式可选'
+      - ''
+      - '&e点击进入'
+    left_click_commands:
+      - '[openguimenu] sell_menu'
+
+  chest_tip:
+    material: CHEST
+    slot: 22
+    display_name: '&e&l箱子商店(和玩家交易)'
+    lore:
+      - '&7三步开店:'
+      - '&f1. &7手里拿着要卖的物品'
+      - '&f2. &7左键点一下箱子'
+      - '&f3. &7输入价格,开店完成!'
+      - ''
+      - '&7别人右键箱子就能买,钱直接进你口袋'
+      - '&7交易税: &f5%'
+      - '&7管理自己的店: &f/qs'
+
+  back:
+    material: ARROW
+    slot: 40
+    display_name: '&e返回主菜单'
+    left_click_commands:
+      - '[openguimenu] main_menu'

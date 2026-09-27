@@ -1,0 +1,151 @@
+# 个人中心
+open_command:
+  - memenu
+  - 个人
+register_command: true
+size: 45
+menu_title: '&8zaraan星火之域 &7» &d个人中心'
+
+items:
+  border:
+    material: PINK_STAINED_GLASS_PANE
+    display_name: ' '
+    slots:
+      - 0-9
+      - 17-18
+      - 26-27
+      - 35-36
+      - 37-44
+
+  info:
+    material: PLAYER_HEAD
+    skull: '%player%'
+    slot: 4
+    display_name: '&d&l%player%'
+    lore:
+      - '&7金币: &6%zaraancore_balance%'
+      - '&7在线时长: &f%playerTime_total%'
+      - '&7延迟: &f%player_ping%ms'
+      - '&7等级: &f%player_level%'
+      - '&7所在世界: &f%world%'
+
+  skins:
+    material: LEATHER_CHESTPLATE
+    slot: 19
+    display_name: '&d&l皮肤 & 披风'
+    lore:
+      - '&7· 10 款皮肤 + 5 款披风'
+      - '&7· 也支持第三方皮肤站的链接'
+      - '&7价格: &6&e300 ~ 1500 金币'
+      - ''
+      - '&e点击挑选'
+    left_click_commands:
+      - '[openguimenu] skins_menu'
+
+  backpack:
+    material: BUNDLE
+    slot: 21
+    display_name: '&e&l随身背包'
+    lore:
+      - '&7随时随地存取物品'
+      - '&7服务器重启也不会丢'
+      - ''
+      - '&e点击打开'
+    left_click_commands:
+      - '[player] bp'
+      - '[close]'
+
+  claim:
+    material: GOLDEN_SHOVEL
+    slot: 23
+    display_name: '&6&l我的领地'
+    lore:
+      - '&7查看你圈的地'
+      - ''
+      - '&7圈地方法: 手持金铲子右键两个对角'
+      - '&7价格: 50 金币 / 个领地币'
+      - ''
+      - '&e点击查看领地'
+    left_click_commands:
+      - '[player] claimslist'
+      - '[close]'
+
+  buyclaim:
+    material: GOLD_INGOT
+    slot: 25
+    display_name: '&6&l购买领地币'
+    lore:
+      - '&7买 10 个领地币,能圈更多地'
+      - ''
+      - '&7费用: &6&e500 金币'
+      - '&e点击购买'
+    left_click_commands:
+      - '[player] buyclaimblocks 10'
+      - '[close]'
+
+  myhome:
+    material: RED_BED
+    slot: 28
+    display_name: '&c&l我的家管理'
+    lore:
+      - '&7管理你设置的所有家'
+      - '&7左键传送 &8| &c删除 &8| &e新增'
+      - ''
+      - '&e点击管理'
+    left_click_commands:
+      - '[player] mhome'
+      - '[close]'
+
+  pay:
+    material: EMERALD
+    slot: 30
+    display_name: '&a&l转账 &7(钱包)'
+    lore:
+      - '&7选择玩家 -> 聊天输入金额'
+      - '&7不用再敲 &f/pay &7命令'
+      - ''
+      - '&e点击开始转账'
+    left_click_commands:
+      - '[player] mpay'
+      - '[close]'
+
+  baltop:
+    material: DIAMOND
+    slot: 29
+    display_name: '&b&l金币排行榜'
+    lore:
+      - '&7看看谁是首富'
+      - ''
+      - '&e点击查看'
+    left_click_commands:
+      - '[player] baltop'
+      - '[close]'
+
+  stats:
+    material: BOOK
+    slot: 31
+    display_name: '&a&l我的统计'
+    lore:
+      - '&7金币: &6%zaraancore_balance%'
+      - '&7在线时长: &f%playerTime_total%'
+      - '&7当前在线: &f%server_online%&7/&f%server_max_players%'
+
+  msg:
+    material: PAPER
+    slot: 32
+    display_name: '&d&l私聊消息'
+    lore:
+      - '&7选择玩家 -> 聊天栏输入内容'
+      - '&7只有对方能看到你发的内容'
+      - ''
+      - '&e点击选择玩家'
+    left_click_commands:
+      - '[player] mmsg'
+      - '[close]'
+
+  back:
+    material: ARROW
+    slot: 40
+    display_name: '&e返回主菜单'
+    left_click_commands:
+      - '[openguimenu] main_menu'

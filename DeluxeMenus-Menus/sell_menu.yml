@@ -1,0 +1,80 @@
+# 玩家自由出售
+open_command:
+  - sellmenu
+register_command: true
+size: 36
+menu_title: '&8zaraan星火之域 &7» &6出售物品'
+
+items:
+  border:
+    material: GRAY_STAINED_GLASS_PANE
+    display_name: ' '
+    slots:
+      - 0-8
+      - 27-35
+
+  sellall:
+    material: HOPPER
+    slot: 10
+    display_name: '&6&l一键出售背包'
+    lore:
+      - '&7把背包里所有能卖的东西一次卖光'
+      - '&7(会保留装备和贵重物品)'
+      - ''
+      - '&e点击出售'
+    left_click_commands:
+      - '[player] sellall'
+      - '[close]'
+
+  sellgui:
+    material: CHEST
+    slot: 12
+    display_name: '&6&l出售界面'
+    lore:
+      - '&7打开一个界面,把要卖的东西放进去'
+      - '&7关闭界面即自动结算'
+      - ''
+      - '&e点击打开'
+    left_click_commands:
+      - '[player] sellgui'
+      - '[close]'
+
+  sellhand:
+    material: DIAMOND
+    slot: 14
+    display_name: '&6&l出售手中的物品'
+    lore:
+      - '&7卖掉你手上拿着的那一格物品'
+      - ''
+      - '&e点击出售'
+    left_click_commands:
+      - '[player] sellall hand'
+      - '[close]'
+
+  shop:
+    material: EMERALD
+    slot: 16
+    display_name: '&a&l去系统商店'
+    lore:
+      - '&7也可以直接在商店里点物品出售'
+      - ''
+      - '&e点击打开商店'
+    left_click_commands:
+      - '[player] shop'
+      - '[close]'
+
+  tip:
+    material: PAPER
+    slot: 22
+    display_name: '&7&l小提示'
+    lore:
+      - '&7· 卖东西前先看看商店里的收购价'
+      - '&7· 想长期做生意就用&f箱子商店&7开店'
+      - '&7· 挖矿、钓鱼、打怪都有任务奖励金币'
+
+  back:
+    material: ARROW
+    slot: 31
+    display_name: '&e返回'
+    left_click_commands:
+      - '[openguimenu] shop_menu'

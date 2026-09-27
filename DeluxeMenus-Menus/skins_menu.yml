@@ -1,0 +1,167 @@
+# 皮肤 & 披风商店
+open_command:
+  - skinshop
+register_command: true
+size: 54
+menu_title: '&8zaraan星火之域 &7» &d皮肤 & 披风'
+
+items:
+  border:
+    material: GRAY_STAINED_GLASS_PANE
+    display_name: ' '
+    slots:
+      - 0-9
+      - 17-18
+      - 26-27
+      - 35-36
+      - 44-53
+
+  info:
+    material: PLAYER_HEAD
+    skull: '%player%'
+    slot: 4
+    display_name: '&d&l皮肤与披风'
+    lore:
+      - '&7金币: &6%zaraancore_balance%'
+      - ''
+      - '&7购买后立即生效'
+      - '&7皮肤和披风互相独立'
+
+  # ---------- 皮肤(10 款) ----------
+  skin_steve:
+    material: LEATHER_CHESTPLATE
+    slot: 10
+    display_name: '&f&l史蒂夫'
+    lore: ['&7经典原版皮肤', '', '&7价格: &6&e300 金币', '&e点击购买']
+    left_click_commands: ['[console] zc buy %player% skin_steve', '[refresh]']
+
+  skin_notch:
+    material: GOLDEN_APPLE
+    slot: 11
+    display_name: '&6&lNotch'
+    lore: ['&7创世神', '', '&7价格: &6&e500 金币', '&e点击购买']
+    left_click_commands: ['[console] zc buy %player% skin_notch', '[refresh]']
+
+  skin_jeb:
+    material: EMERALD
+    slot: 12
+    display_name: '&a&ljeb_'
+    lore: ['&7MC 设计师', '', '&7价格: &6&e500 金币', '&e点击购买']
+    left_click_commands: ['[console] zc buy %player% skin_jeb', '[refresh]']
+
+  skin_dinnerbone:
+    material: RABBIT_FOOT
+    slot: 13
+    display_name: '&b&lDinnerbone'
+    lore: ['&7倒立行走', '', '&7价格: &6&e800 金币', '&e点击购买']
+    left_click_commands: ['[console] zc buy %player% skin_dinnerbone', '[refresh]']
+
+  skin_grumm:
+    material: TNT
+    slot: 14
+    display_name: '&c&lGrumm'
+    lore: ['&7倒立爆炸专家', '', '&7价格: &6&e800 金币', '&e点击购买']
+    left_click_commands: ['[console] zc buy %player% skin_grumm', '[refresh]']
+
+  skin_marc:
+    material: WRITABLE_BOOK
+    slot: 15
+    display_name: '&e&lMarc'
+    lore: ['&7Mojang 员工', '', '&7价格: &6&e1200 金币', '&e点击购买']
+    left_click_commands: ['[console] zc buy %player% skin_marc', '[refresh]']
+
+  skin_searge:
+    material: REDSTONE
+    slot: 16
+    display_name: '&4&lSearge'
+    lore: ['&7Mojang 员工', '', '&7价格: &6&e1200 金币', '&e点击购买']
+    left_click_commands: ['[console] zc buy %player% skin_searge', '[refresh]']
+
+  skin_erik:
+    material: GRASS_BLOCK
+    slot: 19
+    display_name: '&2&lErik'
+    lore: ['&7Mojang 员工', '', '&7价格: &6&e1200 金币', '&e点击购买']
+    left_click_commands: ['[console] zc buy %player% skin_erik', '[refresh]']
+
+  skin_profmobius:
+    material: SPIDER_EYE
+    slot: 20
+    display_name: '&8&lProfMobius'
+    lore: ['&7Mojang 员工', '', '&7价格: &6&e1200 金币', '&e点击购买']
+    left_click_commands: ['[console] zc buy %player% skin_profmobius', '[refresh]']
+
+  skin_deadmau5:
+    material: MUSIC_DISC_CAT
+    slot: 21
+    display_name: '&5&ldeadmau5'
+    lore: ['&7音乐人皮肤', '', '&7价格: &6&e1500 金币', '&e点击购买']
+    left_click_commands: ['[console] zc buy %player% skin_deadmau5', '[refresh]']
+
+  # ---------- 自定义皮肤(第三方皮肤站) ----------
+  custom_skin:
+    material: NAME_TAG
+    slot: 23
+    display_name: '&d&l自定义皮肤 &7(第三方皮肤站)'
+    lore:
+      - '&7想用网上的皮肤? 这样做:'
+      - '&f1. &7打开皮肤站找一张皮肤图'
+      - '&7   &fmc-heads.net &7/ &fminecraftskins.com'
+      - '&f2. &7右键图片 → 复制图片地址'
+      - '&f3. &7在聊天栏输入:'
+      - '   &f/zc skinurl <你复制的链接>'
+      - ''
+      - '&7价格: &6&e800 金币'
+      - ''
+      - '&7示例: &f/zc skinurl https://mc-heads.net/skin/Notch'
+
+  # ---------- 披风(4 款) ----------
+  cape_mojang:
+    material: RED_BANNER
+    slot: 28
+    display_name: '&c&lMojang 披风'
+    lore: ['&7官方披风', '', '&7价格: &6&e1500 金币', '&e点击购买']
+    left_click_commands: ['[console] zc buy %player% cape_mojang', '[refresh]']
+
+  cape_jeb:
+    material: LIME_BANNER
+    slot: 29
+    display_name: '&a&ljeb_ 披风'
+    lore: ['&7设计师披风', '', '&7价格: &6&e1500 金币', '&e点击购买']
+    left_click_commands: ['[console] zc buy %player% cape_jeb', '[refresh]']
+
+  cape_dinnerbone:
+    material: LIGHT_BLUE_BANNER
+    slot: 30
+    display_name: '&b&lDinnerbone 披风'
+    lore: ['&7稀有披风', '', '&7价格: &6&e1500 金币', '&e点击购买']
+    left_click_commands: ['[console] zc buy %player% cape_dinnerbone', '[refresh]']
+
+  cape_grumm:
+    material: ORANGE_BANNER
+    slot: 31
+    display_name: '&6&lGrumm 披风'
+    lore: ['&7稀有披风', '', '&7价格: &6&e1500 金币', '&e点击购买']
+    left_click_commands: ['[console] zc buy %player% cape_grumm', '[refresh]']
+
+  # ---------- 还原 ----------
+  reset_cape:
+    material: SHEARS
+    slot: 39
+    display_name: '&7卸下披风'
+    lore: ['&7只卸披风,皮肤保留', '', '&e点击卸下']
+    left_click_commands: ['[console] zc buy %player% cape_remove', '[refresh]']
+
+  reset_skin:
+    material: MILK_BUCKET
+    slot: 41
+    display_name: '&7恢复默认皮肤'
+    lore: ['&7恢复成你自己的皮肤', '', '&e点击恢复']
+    left_click_commands: ['[console] zc buy %player% skin_reset', '[refresh]']
+
+  back:
+    material: ARROW
+    slot: 49
+    display_name: '&e返回个人中心'
+    left_click_commands:
+      - '[openguimenu] me_menu'

@@ -1,0 +1,127 @@
+# 传送中心
+open_command:
+  - tpmenu
+  - warps
+  - 传送点
+  - 传送
+register_command: true
+size: 45
+menu_title: '&8zaraan星火之域 &7» &b传送中心'
+
+items:
+  border:
+    material: CYAN_STAINED_GLASS_PANE
+    display_name: ' '
+    slots:
+      - 0-9
+      - 17-18
+      - 26-27
+      - 35-36
+      - 37-44
+
+  warp_main:
+    material: GRASS_BLOCK
+    slot: 10
+    display_name: '&a&l主城'
+    lore:
+      - '&7服务器出生点'
+      - ''
+      - '&7费用: &6&e10 金币'
+      - '&e点击传送'
+    left_click_commands:
+      - '[player] warp 主城'
+      - '[close]'
+
+  pwarp:
+    material: ENDER_EYE
+    slot: 12
+    display_name: '&5&l玩家传送点 &7(公开)'
+    lore:
+      - '&7这里是玩家自己开的传送点'
+      - '&7可以传送到别人家参观、买东西'
+      - ''
+      - '&7自己开一个: &f/pwarp set <名字>'
+      - '&7(需要 3 个钻石)'
+      - '&e点击浏览玩家传送点'
+    left_click_commands:
+      - '[player] pwarp'
+      - '[close]'
+
+  home:
+    material: RED_BED
+    slot: 14
+    display_name: '&c&l我的家'
+    lore:
+      - '&7传送回你设置的家'
+      - ''
+      - '&7费用: &6&e10 金币'
+      - '&7设置新家: &f/sethome &7(100 金币)'
+      - '&e左键回家 &8| &d右键管理我的家'
+    left_click_commands:
+      - '[player] home'
+      - '[close]'
+    right_click_commands:
+      - '[player] mhome'
+      - '[close]'
+
+  back:
+    material: COMPASS
+    slot: 16
+    display_name: '&b&l回到死亡点'
+    lore:
+      - '&7死亡后花金币回去捡装备'
+      - '&7(死亡时物品其实会自动保住)'
+      - ''
+      - '&7费用: &6&e100 金币'
+      - '&e点击传送'
+    left_click_commands:
+      - '[player] back'
+      - '[close]'
+
+  tpa:
+    material: ENDER_PEARL
+    slot: 20
+    display_name: '&5&l传送到玩家'
+    lore:
+      - '&7在线玩家列表,点头像直接发送请求'
+      - ''
+      - '&7还能一键同意/拒绝别人的请求'
+      - '&7费用: &6&e20 金币'
+      - '&e点击打开玩家列表'
+    left_click_commands:
+      - '[player] mtpa'
+      - '[close]'
+
+  rtp:
+    material: FIRE_CHARGE
+    slot: 22
+    display_name: '&c&l随机传送 &7(探险)'
+    lore:
+      - '&7厌倦了出生点?一键飞到野外!'
+      - '&7随机落到 &f800-5000 &7格外的安全地点'
+      - ''
+      - '&7冷却: &f3 分钟 &7| 费用: &6免费'
+      - '&e点击随机传送'
+    left_click_commands:
+      - '[player] rtp'
+      - '[close]'
+
+  tip:
+    material: PAPER
+    slot: 24
+    display_name: '&7&l传送提示'
+    lore:
+      - '&7· &f/tpa <玩家> &7请求传送到对方'
+      - '&7· &f/tpaccept &7同意别人的请求'
+      - '&7· &f/spawn &7快速回主城'
+      - '&7· &f/home &7回家 &7· &f/sethome &7设置家'
+      - '&7· &f/pwarp set <名字> &7开自己的传送点'
+      - ''
+      - '&7坐等 3 秒不移动才会传送成功'
+
+  backmenu:
+    material: ARROW
+    slot: 40
+    display_name: '&e返回主菜单'
+    left_click_commands:
+      - '[openguimenu] main_menu'

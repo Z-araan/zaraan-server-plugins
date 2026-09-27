@@ -9,6 +9,7 @@ Paper 26.2 Minecraft 服务器「zaraan星火之域」的自研插件与补丁�
 | `ZaraanCore/` | 核心整合插件: 菜单物品/经济/传送/组队/私聊/进服体验/自动公告/聊天称号 |
 | `ZaraanAI/` | 云端AI向导插件: 调用 DeepSeek API 回答服务器相关问题 |
 | `HuHoBot-Patch/` | HuHoBot 企鹅 QQ 机器人补丁: 修复 MC↔QQ 消息同步、颜色过滤 |
+| `DeluxeMenus-Menus/` | 服务器菜单配置(主菜单/商店/传送/个人中心/玩法/杂项等8个菜单) |
 
 ## 功能一览
 

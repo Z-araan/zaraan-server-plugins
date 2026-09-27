@@ -1,0 +1,70 @@
+# 其他功能
+open_command:
+  - miscmenu
+register_command: true
+size: 36
+menu_title: '&8zaraan星火之域 &7» &9其他功能'
+
+items:
+  border:
+    material: LIGHT_BLUE_STAINED_GLASS_PANE
+    display_name: ' '
+    slots:
+      - 0-8
+      - 27-35
+
+  map:
+    material: FILLED_MAP
+    slot: 10
+    display_name: '&9&l网页地图'
+    lore:
+      - '&7在浏览器里看整个世界'
+      - '&7能找到自己的家、领地和商店'
+      - ''
+      - '&7地址: &fhttp://zaraan.zh.kg:8081'
+    left_click_commands:
+      - '[message] &7网页地图: &fhttp://zaraan.zh.kg:8081'
+
+  voice:
+    material: NOTE_BLOCK
+    slot: 12
+    display_name: '&d&l语音聊天'
+    lore:
+      - '&7装上 &fSimple Voice Chat &7模组'
+      - '&7就能和附近的人开麦聊天'
+      - ''
+      - '&7语音端口: &f24454 (UDP)'
+
+  help:
+    material: OAK_SIGN
+    slot: 14
+    display_name: '&b&l常用指令'
+    lore:
+      - '&6【基础】'
+      - '&7· &f/menu &7菜单 &7· &f/bp &7背包'
+      - '&7· &f/tpa &7传送 &7· &f/home &7回家'
+      - '&6【赚钱】'
+      - '&7· &f/shop &7商店 &7· &f/sellall &7一键卖'
+      - '&7· &f/psi &7签到 &7· &f/quests &7任务'
+      - '&6【个性】'
+      - '&7· &f/plt &7称号 &7· &f/pp &7粒子'
+      - '&7· &f/skin &7皮肤披风 &7· &f/pwarp &7传送点'
+
+  rules:
+    material: WRITTEN_BOOK
+    slot: 16
+    display_name: '&e&l服务器小贴士'
+    lore:
+      - '&7· 死亡时花 100 金币可保住全部物品'
+      - '&7· 圈地后别人无法破坏你的建筑'
+      - '&7· 常见矿物会被反矿透保护'
+      - '&7· 遇到作弊玩家可以截图给管理'
+      - '&7· 有问题在群里 @管理 或发 /helpop'
+
+  back:
+    material: ARROW
+    slot: 31
+    display_name: '&e返回主菜单'
+    left_click_commands:
+      - '[openguimenu] main_menu'
+
