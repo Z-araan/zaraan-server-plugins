@@ -96,7 +96,7 @@ items:
       - '&7在线: &f%server_online% &7/ &f%server_max_players%'
       - '&7延迟: &f%player_ping%ms'
       - '&7金币: &6%zaraancore_balance%'
-      - '&7在线时长: &f%playerTime_total%'
+      - '&7在线时长: &f%statistic_time_played%'
 
   # ---------- 常用快捷入口 ----------
   title_shop:

@@ -1,147 +1,151 @@
-# ============================================
-#  ZaraanCore 配置 | zaraan星火之域
-#  修改后可用 /zaraancore reload 重载
-# ============================================
-
-# ========== 菜单物品(右键打开菜单) ==========
 menu-item:
   enabled: true
-  # 给玩家的物品
   material: NETHER_STAR
   name: '&6&l服务器菜单 &7(右键打开)'
   lore:
-    - '&7右键打开服务器菜单'
-    - '&7商店 / 任务 / 签到 / 传送 / 皮肤'
-    - '&7背包 / 领地 / 排行榜'
-  # 放在快捷栏第几格 (0-8)
+  - '&7右键打开服务器菜单'
+  - '&7商店 / 任务 / 签到 / 传送 / 皮肤'
+  - '&7背包 / 领地 / 排行榜'
   slot: 8
-  # 右键后执行的命令
-  open-command: 'menu'
-  # 进服自动给予
+  open-command: menu
   give-on-join: true
-
-# ========== 购买系统 ==========
-# 菜单里用 [console] zc buy %player% <键名> 调用
-# cost: 需要的金币 | command: 购买后执行的指令 (%player% = 玩家名)
-# as-player: true = 以玩家身份执行(受权限限制) / false = 控制台执行(不受限)
 purchases:
-
-  # ---- 皮肤 ----
   skin_steve:
     cost: 300
-    command: 'skin set %player% Steve'
-    as-player: false
-    message: '&a皮肤已更换为 &fSteve &a,花费 &e%cost%'
+    command: skin set Steve
+    as-player: true
+    message: '&a皮肤已更换为 &f&fSteve &a,花费 &e%cost%'
+  skin_alex:
+    cost: 300
+    command: skin set Alex
+    as-player: true
+    message: '&a皮肤已更换为 &f&fAlex &a,花费 &e%cost%'
   skin_notch:
     cost: 500
-    command: 'skin set %player% Notch'
-    as-player: false
-    message: '&a皮肤已更换为 &fNotch &a,花费 &e%cost%'
+    command: skin set Notch
+    as-player: true
+    message: '&a皮肤已更换为 &f&fNotch &a,花费 &e%cost%'
   skin_jeb:
     cost: 500
-    command: 'skin set %player% jeb_'
-    as-player: false
-    message: '&a皮肤已更换为 &fjeb_ &a,花费 &e%cost%'
+    command: skin set jeb_
+    as-player: true
+    message: '&a皮肤已更换为 &f&fjeb_ &a,花费 &e%cost%'
   skin_dinnerbone:
     cost: 800
-    command: 'skin set %player% Dinnerbone'
-    as-player: false
-    message: '&a皮肤已更换为 &fDinnerbone(倒立) &a,花费 &e%cost%'
+    command: skin set Dinnerbone
+    as-player: true
+    message: '&a皮肤已更换为 &f&fDinnerbone(倒立) &a,花费 &e%cost%'
   skin_grumm:
     cost: 800
-    command: 'skin set %player% Grumm'
-    as-player: false
-    message: '&a皮肤已更换为 &fGrumm &a,花费 &e%cost%'
+    command: skin set Grumm
+    as-player: true
+    message: '&a皮肤已更换为 &f&fGrumm &a,花费 &e%cost%'
   skin_marc:
     cost: 1200
-    command: 'skin set %player% Marc'
-    as-player: false
-    message: '&a皮肤已更换为 &fMarc &a,花费 &e%cost%'
+    command: skin set Marc
+    as-player: true
+    message: '&a皮肤已更换为 &f&fMarc &a,花费 &e%cost%'
   skin_searge:
     cost: 1200
-    command: 'skin set %player% Searge'
-    as-player: false
-    message: '&a皮肤已更换为 &fSearge &a,花费 &e%cost%'
+    command: skin set Searge
+    as-player: true
+    message: '&a皮肤已更换为 &f&fSearge &a,花费 &e%cost%'
   skin_erik:
     cost: 1200
-    command: 'skin set %player% Erik'
-    as-player: false
-    message: '&a皮肤已更换为 &fErik &a,花费 &e%cost%'
+    command: skin set Erik
+    as-player: true
+    message: '&a皮肤已更换为 &f&fErik &a,花费 &e%cost%'
   skin_profmobius:
     cost: 1200
-    command: 'skin set %player% ProfMobius'
-    as-player: false
-    message: '&a皮肤已更换为 &fProfMobius &a,花费 &e%cost%'
+    command: skin set ProfMobius
+    as-player: true
+    message: '&a皮肤已更换为 &f&fProfMobius &a,花费 &e%cost%'
   skin_deadmau5:
     cost: 1500
-    command: 'skin set %player% deadmau5'
-    as-player: false
-    message: '&a皮肤已更换为 &fdeadmau5 &a,花费 &e%cost%'
+    command: skin set deadmau5
+    as-player: true
+    message: '&a皮肤已更换为 &f&fdeadmau5 &a,花费 &e%cost%'
+  skin_dream:
+    cost: 1500
+    command: skin set Dream
+    as-player: true
+    message: '&a皮肤已更换为 &f&fDream &a,花费 &e%cost%'
+  skin_technoblade:
+    cost: 1500
+    command: skin set Technoblade
+    as-player: true
+    message: '&a皮肤已更换为 &f&fTechnoblade &a,花费 &e%cost%'
+  skin_grian:
+    cost: 1500
+    command: skin set Grian
+    as-player: true
+    message: '&a皮肤已更换为 &f&fGrian &a,花费 &e%cost%'
   skin_reset:
     cost: 0
-    command: 'skin reset %player%'
-    as-player: false
+    command: skin reset
+    as-player: true
     message: '&a已恢复为你的默认皮肤'
-
-  # ---- 披风 ----
   cape_mojang:
     cost: 1500
-    command: 'skin cape set Mojang %player%'
-    as-player: false
+    command: skin cape set Mojang
+    as-player: true
     message: '&a已装备 &6Mojang 披风&a,花费 &e%cost%'
   cape_jeb:
     cost: 1500
-    command: 'skin cape set jeb_ %player%'
-    as-player: false
+    command: skin cape set jeb_
+    as-player: true
     message: '&a已装备 &6jeb_ 披风&a,花费 &e%cost%'
   cape_dinnerbone:
     cost: 1500
-    command: 'skin cape set Dinnerbone %player%'
-    as-player: false
+    command: skin cape set Dinnerbone
+    as-player: true
     message: '&a已装备 &6Dinnerbone 披风&a,花费 &e%cost%'
   cape_grumm:
     cost: 1500
-    command: 'skin cape set Grumm %player%'
-    as-player: false
+    command: skin cape set Grumm
+    as-player: true
     message: '&a已装备 &6Grumm 披风&a,花费 &e%cost%'
+  cape_marc:
+    cost: 1500
+    command: skin cape set Marc
+    as-player: true
+    message: '&a已装备 &6Marc 披风&a,花费 &e%cost%'
+  cape_searge:
+    cost: 1500
+    command: skin cape set Searge
+    as-player: true
+    message: '&a已装备 &6Searge 披风&a,花费 &e%cost%'
+  cape_erik:
+    cost: 1500
+    command: skin cape set Erik
+    as-player: true
+    message: '&a已装备 &6Erik 披风&a,花费 &e%cost%'
+  cape_profmobius:
+    cost: 1500
+    command: skin cape set ProfMobius
+    as-player: true
+    message: '&a已装备 &6ProfMobius 披风&a,花费 &e%cost%'
   cape_remove:
     cost: 0
-    command: 'skin cape remove %player%'
-    as-player: false
-    message: '&a已卸下披风'
-
-# ========== 死亡不掉落(需要花费金币) ==========
+    command: skin cape remove
+    as-player: true
+    message: '&a已移除披风'
 death-keep-inventory:
   enabled: true
-  # 死亡时扣多少金币(设为 0 = 免费保住)
   cost: 100.0
-  # 是否同时保留经验等级
   keep-level: true
-  # 是否要求权限(开启后只有 zaraancore.keepinv 权限的玩家才享受)
   need-permission: false
-  message-success: "&a你花费了 &e%cost% &a金币,物品已经保住啦!"
-  message-fail: "&c金币不足(需要 &e%cost% &c),物品已掉落! &7可花 &e100 &7金币用 &f/back &7回到死亡点"
-
-# ========== 上线时显示上次登录时间 ==========
+  message-success: '&a你花费了 &e%cost% &a金币,物品已经保住啦!'
+  message-fail: '&c金币不足(需要 &e%cost% &c),物品已掉落! &7可花 &e100 &7金币用 &f/back &7回到死亡点'
 last-login:
   enabled: true
-  date-format: "yyyy-MM-dd HH:mm"
-  first-join: "&e欢迎 &f%player% &e第一次来到 &6zaraan星火之域&e!"
-  welcome-back: "&e欢迎回来 &f%player%&e! 你上次登录是 &b%date%"
-
-# ========== 第三方皮肤站(自定义皮肤链接) ==========
-# 玩家指令: /zc skinurl <皮肤图片直链>
-# 常用皮肤站(复制「皮肤图片直链」即可):
-#   https://mc-heads.net/skin/<正版玩家名>      例: https://mc-heads.net/skin/Notch
-#   https://www.minecraftskins.com/              下载页右键图片 → 复制图片地址
-#   https://mineskin.org/                        上传皮肤后复制直链
-#   https://namemc.com/                          搜索玩家 → 皮肤直链
+  date-format: yyyy-MM-dd HH:mm
+  first-join: '&e欢迎 &f%player% &e第一次来到 &6zaraan星火之域&e!'
+  welcome-back: '&e欢迎回来 &f%player%&e! 你上次登录是 &b%date%'
 skin-url:
   enabled: true
   cost: 800
   message: '&a已应用你提供的皮肤,花费 &e%cost%'
-
-# ========== 进服体验(ZaraanCore 2.0) ==========
 join:
   title-enabled: true
   title-main: '&e&lzaraan星火之域'
@@ -152,29 +156,23 @@ join:
     broadcast: '&6&l新人报到 &8» &e%player% &7第一次来到星火之域,大家欢迎!'
     firework: true
     commands:
-      - 'eco give %player% 500'
-      - 'give %player% bread 16'
-
-# ========== 聊天 ==========
+    - eco give %player% 500
+    - give %player% bread 16
 chat:
-  # 是否在聊天栏把玩家佩戴的称号显示在名字前(需要PlayerTitle+PlaceholderAPI)
   title-in-chat: true
-
-# ========== 自动公告 ==========
 announce:
   enabled: true
-  interval-seconds: 300
-  prefix: '&8[&6公告&8] &7'
+  interval-seconds: 900
+  prefix: '&8[&7提示&8] &7'
   messages:
-    - '输入 &f/menu &7或右键菜单物品,大部分功能都能点出来!'
-    - '想去远处探险? &f/rtp &7一键随机传送!'
-    - '每天 &f/psi &7签到领金币,连续签到奖励更高!'
-    - '遇到问题问AI: &f/ai 怎么赚钱&7,还能 &f/ai build 小木屋 &7生成建筑!'
-    - '组队打怪: &f/team create 名字 &7邀请好友, &f/tc &7队伍聊天'
-    - '网页地图: &bzaraan.zh.kg:8081'
-    - 'QQ交流群: &b1077962353'
-
-# ========== 随机传送 ==========
+  - 输入 &f/menu &7或右键菜单物品,大部分功能都能点出来!
+  - 想去远处探险? &f/rtp &7一键随机传送!
+  - 每天 &f/psi &7签到领金币和物品,连续签到奖励更丰厚!
+  - '玩家交易不用跑腿: &f/market &7菜单里直接买卖!'
+  - '组队打怪: &f/team &7图形化建队, &f/tc &7队伍聊天'
+  - '把自己家设成传送点: &f/mwarp &7菜单操作,朋友随时来参观!'
+  - '网页地图: &bzaraan.zh.kg:8081'
+  - 'QQ交流群: &b1077962353'
 rtp:
   enabled: true
   cooldown-seconds: 180
@@ -182,22 +180,22 @@ rtp:
   max-radius: 5000
   world: world
   warmup-seconds: 3
-
-# ========== 组队系统 ==========
 party:
   max-members: 8
-
-# ========== AI 向导(本地 Ollama) ==========
 ai:
+  enabled: false
+  api-url: https://api.deepseek.com/v1/chat/completions
+  api-key: ''
+  model: deepseek-chat
+market:
+  max-listings-per-player: 10
+  max-price: 1000000
+  tax-percent: 5
+spawn-protection:
   enabled: true
-  base-url: 'http://127.0.0.1:11434'
-  model: 'qwen2.5:1.5b'
-  timeout-seconds: 45
-  question-cooldown-seconds: 20
-  build-enabled: true
-  build-timeout-seconds: 120
-  build-cooldown-seconds: 300
-  build-max-blocks: 1500
-  build-size-x: 14
-  build-size-y: 10
-  build-size-z: 14
+  world: world
+  radius: 32
+  prevent-build: true
+  prevent-damage: true
+  prevent-mob-spawn: true
+  message: '&c这里是出生点保护区,不能这么做哦!'

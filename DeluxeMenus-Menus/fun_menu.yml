@@ -93,7 +93,6 @@ items:
       - '&e点击打开组队'
     left_click_commands:
       - '[player] team'
-      - '[close]'
 
   rank:
     material: DIAMOND

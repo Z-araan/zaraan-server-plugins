@@ -1,5 +1,5 @@
 name: ZaraanCore
-version: 2.1.0
+version: 2.2.0
 main: cn.zaraan.core.ZaraanCore
 api-version: '1.20'
 author: zaraan
@@ -19,6 +19,14 @@ commands:
   mmsg:
     description: 私聊菜单
     aliases: [私聊]
+  mwarp:
+    description: 私人传送点菜单
+    aliases: [传送点]
+  market:
+    description: 玩家交易市场
+    aliases: [市场, ah]
+  ai:
+    description: AI助手
   rtp:
     description: 随机传送
     aliases: [wild, 随机传送]

@@ -67,4 +67,14 @@ items:
     display_name: '&e返回主菜单'
     left_click_commands:
       - '[openguimenu] main_menu'
-
+  ai:
+    material: NETHER_STAR
+    slot: 15
+    display_name: '&b&lAI助手小星'
+    lore:
+      - '&7有问题随时问AI: 赚钱/命令/玩法'
+      - ''
+      - '&e聊天栏输入: &f/ai 你的问题'
+      - '&7例: &f/ai 怎么赚钱'
+    left_click_commands:
+      - '[message] &e在聊天栏输入 &f/ai <问题> &e问AI助手小星!'

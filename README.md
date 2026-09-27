@@ -7,7 +7,7 @@ Paper 26.2 Minecraft 服务器「zaraan星火之域」的自研插件与补丁�
 | 目录 | 说明 |
 |------|------|
 | `ZaraanCore/` | 核心整合插件: 菜单物品/经济/传送/组队/私聊/进服体验/自动公告/聊天称号 |
-| `ZaraanAI/` | 云端AI向导插件: 调用 DeepSeek API 回答服务器相关问题 |
+| `NovaSkin-Patch/` | NovaSkin 皮肤插件补丁: 解除离线模式披风限制 |
 | `HuHoBot-Patch/` | HuHoBot 企鹅 QQ 机器人补丁: 修复 MC↔QQ 消息同步、颜色过滤 |
 | `DeluxeMenus-Menus/` | 服务器菜单配置(主菜单/商店/传送/个人中心/玩法/杂项等8个菜单) |
 
@@ -24,11 +24,14 @@ Paper 26.2 Minecraft 服务器「zaraan星火之域」的自研插件与补丁�
 - **聊天称号**: 在聊天栏玩家名前显示佩戴称号(渲染器方式, 不受旧版事件限制)
 - **死亡保护**: 死亡花金币保住物品
 - **经济**: 皮肤/披风购买, 自定义皮肤链接
+- **玩家交易市场**: `/market` 菜单化买卖玩家物品(上架/浏览/购买/撤回)
+- **私人传送点**: `/mwarp` 菜单管理 PlayerWarps 传送点
+- **组队GUI**: `/team` 图形化组队(创建/邀请/成员管理/队聊)
+- **出生点保护**: 防破坏/防伤害/阻止怪物生成(半径可配)
+- **AI助手**(合并自ZaraanAI): `/ai <问题>` 调用云端API(DeepSeek)
 - **PAPI变量**: `%zaraancore_balance%`
 
-### ZaraanAI
-- `/ai <问题>` 云端AI回答(DeepSeek 大模型)
-- 需要在 `config.yml` 填入 `api-key`
+> AI 功能已合并进 ZaraanCore (v2.2+), 在 `ZaraanCore/config.yml` 的 `ai` 段填入 `api-key` 并设 `enabled: true`
 
 ### HuHoBot-Patch
 - `GameChat`/`MsgIdCapture`: 改用 Paper 现代 `AsyncChatEvent`, 修复 MC→QQ 转发;

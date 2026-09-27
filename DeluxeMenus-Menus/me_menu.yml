@@ -24,7 +24,7 @@ items:
     display_name: '&d&l%player%'
     lore:
       - '&7金币: &6%zaraancore_balance%'
-      - '&7在线时长: &f%playerTime_total%'
+      - '&7在线时长: &f%statistic_time_played%'
       - '&7延迟: &f%player_ping%ms'
       - '&7等级: &f%player_level%'
       - '&7所在世界: &f%world%'
@@ -127,7 +127,7 @@ items:
     display_name: '&a&l我的统计'
     lore:
       - '&7金币: &6%zaraancore_balance%'
-      - '&7在线时长: &f%playerTime_total%'
+      - '&7在线时长: &f%statistic_time_played%'
       - '&7当前在线: &f%server_online%&7/&f%server_max_players%'
 
   msg:
@@ -141,6 +141,34 @@ items:
       - '&e点击选择玩家'
     left_click_commands:
       - '[player] mmsg'
+      - '[close]'
+
+  market:
+    material: EMERALD_BLOCK
+    slot: 33
+    display_name: '&a&l玩家交易市场'
+    lore:
+      - '&7不用跑腿去箱子商店!'
+      - '&7菜单里直接上架/购买玩家物品'
+      - '&7手续费: &e5%'
+      - ''
+      - '&e点击打开市场'
+    left_click_commands:
+      - '[player] market'
+      - '[close]'
+
+  mywarp:
+    material: ENDER_EYE
+    slot: 34
+    display_name: '&5&l私人传送点'
+    lore:
+      - '&7把自己家/基地设成传送点'
+      - '&7传送到别人的传送点参观'
+      - '&7菜单内创建/删除,不用敲命令'
+      - ''
+      - '&e点击打开'
+    left_click_commands:
+      - '[player] mwarp'
       - '[close]'
 
   back:

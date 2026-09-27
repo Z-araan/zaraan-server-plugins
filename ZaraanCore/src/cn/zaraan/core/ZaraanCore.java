@@ -16,6 +16,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
+import java.util.function.Consumer;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.title.Title;
@@ -50,6 +51,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -69,6 +71,7 @@ public class ZaraanCore extends JavaPlugin implements Listener {
     private final Set<UUID> rtpWarming = new HashSet<>();
     private final Map<UUID, String> payPending = new HashMap<>();
     private final Map<UUID, String> msgPending = new HashMap<>();
+    private final Map<UUID, Consumer<String>> chatInputHandlers = new HashMap<>();
     private int announceIndex = 0;
 
     private Economy economy;
@@ -78,6 +81,8 @@ public class ZaraanCore extends JavaPlugin implements Listener {
 
     private GuiManager gui;
     private PartyManager parties;
+    private MarketManager market;
+    private SpawnProtection spawnProtection;
 
     @Override
     public void onEnable() {
@@ -87,7 +92,10 @@ public class ZaraanCore extends JavaPlugin implements Listener {
         menuItemKey = new NamespacedKey(this, "menu_item");
         gui = new GuiManager(this);
         parties = new PartyManager(this);
+        market = new MarketManager(this);
+        spawnProtection = new SpawnProtection(this);
         getServer().getPluginManager().registerEvents(this, this);
+        getServer().getPluginManager().registerEvents(spawnProtection, this);
         getServer().getPluginManager().registerEvents(gui, this);
         getServer().getPluginManager().registerEvents(parties, this);
         startAnnounceTask();
@@ -106,6 +114,9 @@ public class ZaraanCore extends JavaPlugin implements Listener {
     public void onDisable() {
         if (parties != null) {
             parties.save();
+        }
+        if (market != null) {
+            market.save();
         }
         rtpWarming.clear();
         payPending.clear();
@@ -174,8 +185,31 @@ public class ZaraanCore extends JavaPlugin implements Listener {
                 if (!(sender instanceof Player p)) return msgPlayerOnly(sender);
                 startRtp(p);
             }
-            case "team" -> parties.handleCommand(sender, args);
+            case "team" -> {
+                if (args.length == 0 && sender instanceof Player tp) {
+                    gui.openTeamMenu(tp);
+                } else {
+                    parties.handleCommand(sender, args);
+                }
+            }
             case "tc" -> parties.handleChatCommand(sender, args);
+            case "mwarp" -> {
+                if (!(sender instanceof Player p)) return msgPlayerOnly(sender);
+                int page = 0;
+                if (args.length >= 1) {
+                    try { page = Math.max(0, Integer.parseInt(args[0]) - 1); } catch (NumberFormatException ignored) {}
+                }
+                gui.openWarpMenu(p, page);
+            }
+            case "market" -> {
+                if (!(sender instanceof Player p)) return msgPlayerOnly(sender);
+                int page = 0;
+                if (args.length >= 1) {
+                    try { page = Math.max(0, Integer.parseInt(args[0]) - 1); } catch (NumberFormatException ignored) {}
+                }
+                gui.openMarketMenu(p, page);
+            }
+            case "ai" -> handleAi(sender, args);
             default -> { return false; }
         }
         return true;
@@ -184,6 +218,163 @@ public class ZaraanCore extends JavaPlugin implements Listener {
     private boolean msgPlayerOnly(CommandSender sender) {
         sender.sendMessage(color("&c该命令只有玩家可以使用"));
         return true;
+    }
+
+    // ==================== AI 助手(合并自 ZaraanAI) ====================
+
+    public class AiService {
+        private final java.net.http.HttpClient http = java.net.http.HttpClient.newBuilder()
+                .connectTimeout(java.time.Duration.ofSeconds(30)).build();
+
+        public boolean isEnabled() {
+            return getConfig().getBoolean("ai.enabled", false)
+                    && !getConfig().getString("ai.api-key", "").isEmpty();
+        }
+
+        private String body(String system, String user) {
+            com.google.gson.JsonObject o = new com.google.gson.JsonObject();
+            o.addProperty("model", getConfig().getString("ai.model", "deepseek-chat"));
+            com.google.gson.JsonArray msgs = new com.google.gson.JsonArray();
+            com.google.gson.JsonObject sys = new com.google.gson.JsonObject();
+            sys.addProperty("role", "system");
+            sys.addProperty("content", system);
+            msgs.add(sys);
+            com.google.gson.JsonObject usr = new com.google.gson.JsonObject();
+            usr.addProperty("role", "user");
+            usr.addProperty("content", user);
+            msgs.add(usr);
+            o.add("messages", msgs);
+            o.addProperty("temperature", 0.7);
+            o.addProperty("max_tokens", 500);
+            return o.toString();
+        }
+
+        public void ask(Player p, String question) {
+            String key = getConfig().getString("ai.api-key", "");
+            if (key.isEmpty()) {
+                p.sendMessage(color("&cAI未配置,请联系管理员填写 ai.api-key"));
+                return;
+            }
+            p.sendMessage(color("&7[AI] &f思考中..."));
+            String system = "你是Minecraft服务器「zaraan星火之域」的AI助手小星。用简短中文回答(80字内)。"
+                    + "常用命令: /menu菜单 /mtpa传送列表 /mhome家 /mpay转账 /mmsg私聊 /rtp随机传送 /team组队 /tc队聊"
+                    + " /psi签到 /quests任务 /market市场 /mwarp传送点 /shop商店 /sellall hand卖手上物品 /crates抽奖 /bp背包;"
+                    + " 经济: 签到有金币和物品, 传送费10-20金币, 死亡保护100金币; 规则: 禁止偷窃破坏他人建筑。"
+                    + "只回答服务器和Minecraft相关话题。";
+            java.net.http.HttpRequest req = java.net.http.HttpRequest.newBuilder(
+                            java.net.URI.create(getConfig().getString("ai.api-url", "https://api.deepseek.com/v1/chat/completions")))
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + key)
+                    .POST(java.net.http.HttpRequest.BodyPublishers.ofString(body(system, question)))
+                    .timeout(java.time.Duration.ofSeconds(60))
+                    .build();
+            http.sendAsync(req, java.net.http.HttpResponse.BodyHandlers.ofString())
+                    .thenAccept(resp -> getServer().getScheduler().runTask(ZaraanCore.this, () -> {
+                        if (resp.statusCode() == 200) {
+                            String reply = extract(resp.body());
+                            if (reply != null && !reply.isBlank()) {
+                                for (String line : reply.split("\n")) {
+                                    if (!line.isBlank()) p.sendMessage(color("&b[AI] &f" + line));
+                                }
+                            } else {
+                                p.sendMessage(color("&c[AI] 回复为空"));
+                            }
+                        } else {
+                            p.sendMessage(color("&c[AI] 请求失败: HTTP " + resp.statusCode()));
+                            getLogger().warning("AI API错误: " + resp.statusCode() + " " + resp.body());
+                        }
+                    }))
+                    .exceptionally(ex -> {
+                        getServer().getScheduler().runTask(ZaraanCore.this, () ->
+                                p.sendMessage(color("&c[AI] 请求异常: " + ex.getMessage())));
+                        return null;
+                    });
+        }
+
+        private String extract(String respBody) {
+            try {
+                com.google.gson.JsonObject o = com.google.gson.JsonParser.parseString(respBody).getAsJsonObject();
+                if (o.has("choices") && !o.getAsJsonArray("choices").isEmpty()) {
+                    return o.getAsJsonArray("choices").get(0).getAsJsonObject()
+                            .getAsJsonObject("message").get("content").getAsString();
+                }
+            } catch (Exception ignored) {
+            }
+            return null;
+        }
+    }
+
+    private final AiService aiService = new AiService();
+
+    private void handleAi(CommandSender sender, String[] args) {
+        if (!(sender instanceof Player p)) { msgPlayerOnly(sender); return; }
+        if (!aiService.isEnabled()) {
+            p.sendMessage(color("&cAI未配置(需要 config.yml 的 ai.api-key),请联系管理员"));
+            return;
+        }
+        if (args.length == 0) {
+            p.sendMessage(color("&6AI助手小星 &7» &f/ai <问题>"));
+            p.sendMessage(color("&7例: &f/ai 怎么赚钱 &8| &f/ai 怎么组队"));
+            return;
+        }
+        StringBuilder q = new StringBuilder();
+        for (String a : args) q.append(a).append(' ');
+        aiService.ask(p, q.toString().trim());
+    }
+
+    // ==================== 私人传送点(PlayerWarps 集成) ====================
+
+    private Object pwarpStorage() {
+        try {
+            Plugin pw = getServer().getPluginManager().getPlugin("PlayerWarps");
+            if (pw == null) return null;
+            return pw.getClass().getMethod("storage").invoke(pw);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<String> listPlayerWarps(Player viewer) {
+        List<String> names = new ArrayList<>();
+        Object storage = pwarpStorage();
+        if (storage == null) return names;
+        try {
+            java.util.Collection<Object> warps = (java.util.Collection<Object>)
+                    storage.getClass().getMethod("getWarps").invoke(storage);
+            for (Object w : warps) {
+                Object n = w.getClass().getMethod("name").invoke(w);
+                if (n != null) names.add(n.toString());
+            }
+        } catch (Exception ignored) {
+        }
+        names.sort(String.CASE_INSENSITIVE_ORDER);
+        return names;
+    }
+
+    public void createPlayerWarp(Player p, String name) {
+        p.performCommand("pwarp set " + name);
+    }
+
+    public void deletePlayerWarp(Player p, String name) {
+        p.performCommand("pwarp delete " + name);
+    }
+
+    public void teleportPlayerWarp(Player p, String name) {
+        p.performCommand("pwarp " + name);
+    }
+
+    public MarketManager market() {
+        return market;
+    }
+
+    // ==================== 聊天输入请求(通用) ====================
+
+    /** 请求玩家在聊天栏输入一段内容, 输入会被拦截并交给 handler */
+    public void requestChatInput(Player p, String prompt, Consumer<String> handler) {
+        chatInputHandlers.put(p.getUniqueId(), handler);
+        p.sendMessage(color(prompt));
+        p.sendMessage(color("&7(输入的内容不会被公开,输入 &c取消 &7可放弃)"));
     }
 
     private void handleZc(CommandSender sender, String[] args) {
@@ -212,13 +403,13 @@ public class ZaraanCore extends JavaPlugin implements Listener {
                 giveMenuItem(p);
                 p.performCommand(getConfig().getString("menu-item.open-command", "menu"));
             }
-            case "skinurl" -> {
+            case "capeurl" -> {
                 if (!(sender instanceof Player p)) { msgPlayerOnly(sender); return; }
                 if (args.length < 2) {
-                    p.sendMessage(color("&e用法: /zc skinurl <皮肤图片直链>"));
+                    p.sendMessage(color("&e用法: /zc capeurl <披风图片直链>"));
                     return;
                 }
-                double cost = getConfig().getDouble("skin-url.cost", 800.0);
+                double cost = getConfig().getDouble("skin-url.cape-cost", 1000.0);
                 if (cost > 0.0) {
                     if (economy == null || !economy.has(p, cost)) {
                         p.sendMessage(color("&c金币不足!需要 &e" + money(cost)));
@@ -231,7 +422,37 @@ public class ZaraanCore extends JavaPlugin implements Listener {
                     p.sendMessage(color("&c链接必须以 http:// 或 https:// 开头"));
                     return;
                 }
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "skin set " + p.getName() + " url:" + url);
+                p.performCommand("skin cape set url:" + url);
+                p.sendMessage(color("&a已应用自定义披风,花费 &e" + money(cost)));
+            }
+            case "skinurl" -> {
+                if (!(sender instanceof Player p)) { msgPlayerOnly(sender); return; }
+                if (args.length < 2) {
+                    p.sendMessage(color("&e用法: /zc skinurl <皮肤图片直链 或 正版玩家名>"));
+                    p.sendMessage(color("&7示例: /zc skinurl Notch &8| &f/zc skinurl https://mc-heads.net/skin/Notch"));
+                    return;
+                }
+                double cost = getConfig().getDouble("skin-url.cost", 800.0);
+                if (cost > 0.0) {
+                    if (economy == null || !economy.has(p, cost)) {
+                        p.sendMessage(color("&c金币不足!需要 &e" + money(cost)));
+                        return;
+                    }
+                    economy.withdrawPlayer(p, cost);
+                }
+                String url = args[1];
+                if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                    // 纯玩家名 → 第三方皮肤站(mc-heads.net)
+                    if (url.matches("[A-Za-z0-9_]{2,16}")) {
+                        url = "https://mc-heads.net/skin/" + url;
+                        p.sendMessage(color("&7已转换为皮肤站链接: &f" + url));
+                    } else {
+                        p.sendMessage(color("&c请输入图片直链或正版玩家名"));
+                        return;
+                    }
+                }
+                // 以玩家身份执行(自设语法), 避免控制台上下文问题
+                p.performCommand("skin set url:" + url);
                 p.sendMessage(color(getConfig().getString("skin-url.message", "&a已应用你的皮肤,花费 &e%cost%").replace("%cost%", money(cost))));
             }
             case "buy" -> handleBuy(sender, args);
@@ -464,6 +685,7 @@ public class ZaraanCore extends JavaPlugin implements Listener {
         UUID u = event.getPlayer().getUniqueId();
         payPending.remove(u);
         msgPending.remove(u);
+        chatInputHandlers.remove(u);
         rtpWarming.remove(u);
     }
 
@@ -516,14 +738,35 @@ public class ZaraanCore extends JavaPlugin implements Listener {
             return;
         }
         io.papermc.paper.chat.ChatRenderer original = event.renderer();
+        net.kyori.adventure.text.Component reset = net.kyori.adventure.text.Component.text(" ");
         event.renderer((source, sourceDisplayName, message, viewer) ->
-                prefix.append(original.render(source, sourceDisplayName, message, viewer)));
+                prefix.append(reset).append(original.render(source, sourceDisplayName, message, viewer)));
     }
 
     /** 私聊消息输入捕获 */
     @EventHandler(priority = EventPriority.LOWEST)
     public void onChatMsg(AsyncChatEvent event) {
         UUID uuid = event.getPlayer().getUniqueId();
+        // 通用聊天输入(市场定价/队伍名/邀请等)
+        Consumer<String> inputHandler = chatInputHandlers.remove(uuid);
+        if (inputHandler != null) {
+            event.setCancelled(true);
+            String text = net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText()
+                    .serialize(event.message()).trim();
+            final Player pl = event.getPlayer();
+            getServer().getScheduler().runTask(this, () -> {
+                if (text.equalsIgnoreCase("取消") || text.equalsIgnoreCase("cancel")) {
+                    pl.sendMessage(color("&7已取消输入"));
+                    return;
+                }
+                try {
+                    inputHandler.accept(text);
+                } catch (Exception ex) {
+                    pl.sendMessage(color("&c输入处理出错: " + ex.getMessage()));
+                }
+            });
+            return;
+        }
         String target = msgPending.remove(uuid);
         if (target == null) return;
         event.setCancelled(true);

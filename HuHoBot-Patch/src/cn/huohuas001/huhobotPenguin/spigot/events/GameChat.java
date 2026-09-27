@@ -112,7 +112,9 @@ public final class GameChat implements Listener {
             try {
                 V2Result result = starter.getBot().groupBaseV2.send(groupId, JSON.toJSONString(payload), Channel.SEND_MESSAGE_HEADERS);
                 Integer ret = result == null ? null : result.getRet();
-                if (ret == null || ret.intValue() != 0) {
+                // ret=200(HTTP OK) 或 0 均为成功
+                boolean ok = ret != null && (ret.intValue() == 200 || ret.intValue() == 0);
+                if (!ok) {
                     String msg = result == null ? "无返回" : result.getMsg();
                     plugin.log_error("向QQ群转发游戏聊天失败(被动=" + passive + ", ret=" + ret + ", msg=" + msg + ")");
                 }
