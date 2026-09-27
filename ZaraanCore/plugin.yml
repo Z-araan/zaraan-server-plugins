@@ -1,0 +1,37 @@
+name: ZaraanCore
+version: 2.1.0
+main: cn.zaraan.core.ZaraanCore
+api-version: '1.20'
+author: zaraan
+description: zaraan星火之域核心整合 - 菜单/经济/传送/组队/AI向导
+softdepend: [Vault, PlaceholderAPI, Essentials]
+commands:
+  zaraancore:
+    description: ZaraanCore 管理命令
+    aliases: [zc]
+  mtpa:
+    description: 玩家传送列表菜单
+    aliases: [mtp]
+  mhome:
+    description: 家管理菜单
+  mpay:
+    description: 转账菜单
+  mmsg:
+    description: 私聊菜单
+    aliases: [私聊]
+  rtp:
+    description: 随机传送
+    aliases: [wild, 随机传送]
+  team:
+    description: 组队系统
+    aliases: [party, 队伍]
+  tc:
+    description: 队伍聊天
+    aliases: [pc, 队聊]
+permissions:
+  zaraancore.admin:
+    description: ZaraanCore 管理
+    default: op
+  zaraancore.keepinv:
+    description: 死亡保护资格(need-permission时)
+    default: true
