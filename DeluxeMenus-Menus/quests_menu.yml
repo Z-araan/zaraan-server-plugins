@@ -1,0 +1,89 @@
+# ==========================================
+#  任务中心 (Quests 子菜单) | zaraan星火之域
+# ==========================================
+open_command:
+  - questsmenu
+  - 任务
+  - 任务中心
+register_command: true
+size: 27
+menu_title: '&8zaraan星火之域 &7» &6任务中心'
+
+items:
+  border:
+    material: ORANGE_STAINED_GLASS_PANE
+    display_name: ' '
+    slots:
+      - 0-9
+      - 17-18
+      - 26
+
+  info:
+    material: WRITABLE_BOOK
+    slot: 4
+    display_name: '&6&l任务中心'
+    lore:
+      - '&7完成服务器任务可以获得奖励'
+      - '&7共 &f10+ &7个任务等你挑战!'
+      - ''
+      - '&7查看任务日志: &f/quests journal'
+      - '&7查看任务列表: &f/quests list'
+      - '&7接受任务: &f/quests take <任务名>'
+
+  journal:
+    material: BOOK
+    slot: 10
+    display_name: '&a&l任务日志'
+    lore:
+      - '&7打开任务日志,查看你的任务进度'
+      - '&7已接任务/完成情况一目了然'
+      - ''
+      - '&e点击打开'
+    left_click_commands:
+      - '[player] quests journal'
+      - '[close]'
+
+  list:
+    material: PAPER
+    slot: 12
+    display_name: '&e&l任务列表'
+    lore:
+      - '&7查看服务器所有任务'
+      - '&7包含: 骷髅克星/苦力怕终结者/农夫'
+      - '&7      钓鱼佬/新手矿工/樵夫/僵尸猎人 等'
+      - ''
+      - '&e点击查看'
+    left_click_commands:
+      - '[player] quests list'
+      - '[close]'
+
+  top:
+    material: GOLD_INGOT
+    slot: 14
+    display_name: '&6&l任务排行榜'
+    lore:
+      - '&7看看谁是任务大师!'
+      - ''
+      - '&e点击查看排行'
+    left_click_commands:
+      - '[player] quests top'
+      - '[close]'
+
+  stats:
+    material: EXPERIENCE_BOTTLE
+    slot: 16
+    display_name: '&b&l我的任务统计'
+    lore:
+      - '&7查看你的任务完成数据'
+      - ''
+      - '&e点击查看'
+    left_click_commands:
+      - '[player] quests stats'
+      - '[close]'
+
+  back:
+    material: ARROW
+    slot: 22
+    display_name: '&e返回玩法中心'
+    left_click_commands:
+      - '[openguimenu] fun_menu'

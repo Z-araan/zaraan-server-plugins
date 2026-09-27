@@ -27,3 +27,5 @@ gui_menus:
     file: skins_menu.yml
   worlds_menu:
     file: worlds_menu.yml
+  quests_menu:
+    file: quests_menu.yml

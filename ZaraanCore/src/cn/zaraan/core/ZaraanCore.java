@@ -104,7 +104,7 @@ public class ZaraanCore extends JavaPlugin implements Listener {
                 getLogger().warning("PAPI 变量注册失败: " + ex.getMessage());
             }
         }
-        getLogger().info("ZaraanCore v2.3 已启用 | /menu /mtpa /mhome /mpay /mmsg /market /rtp /team /ai");
+        getLogger().info("ZaraanCore v2.5 已启用 | /menu /mtpa /mhome /mpay /mmsg /market /rtp /team /ai");
     }
 
     @Override
@@ -542,6 +542,100 @@ public class ZaraanCore extends JavaPlugin implements Listener {
                 getLogger().warning("执行菜单指令失败: " + cmd);
             }
         });
+    }
+
+    // ============================================================
+    // 传送请求点击按钮(所有/tpa请求都带 同意/拒绝 按钮)
+    // ============================================================
+
+    /** 给被请求方发送可点击的 [同意]/[拒绝] 按钮 */
+    public void sendTpaPrompt(Player target, String senderName) {
+        net.kyori.adventure.text.Component msg = net.kyori.adventure.text.Component.empty()
+                .append(net.kyori.adventure.text.Component.text("[传送请求] ")
+                        .color(net.kyori.adventure.text.format.NamedTextColor.GOLD))
+                .append(net.kyori.adventure.text.Component.text(senderName + " 想传送到你身边!")
+                        .color(net.kyori.adventure.text.format.NamedTextColor.YELLOW))
+                .append(net.kyori.adventure.text.Component.newline())
+                .append(net.kyori.adventure.text.Component.text("[ \u2714 点击同意 ]")
+                        .color(net.kyori.adventure.text.format.NamedTextColor.GREEN)
+                        .decorate(net.kyori.adventure.text.format.TextDecoration.BOLD)
+                        .clickEvent(net.kyori.adventure.text.event.ClickEvent.runCommand("/tpaccept")))
+                .append(net.kyori.adventure.text.Component.text("   "))
+                .append(net.kyori.adventure.text.Component.text("[ \u2718 点击拒绝 ]")
+                        .color(net.kyori.adventure.text.format.NamedTextColor.RED)
+                        .decorate(net.kyori.adventure.text.format.TextDecoration.BOLD)
+                        .clickEvent(net.kyori.adventure.text.event.ClickEvent.runCommand("/tpdeny")));
+        target.sendMessage(msg);
+    }
+
+    /** 拦截 /tpa 与 /tpahere 命令, 给目标补发可点击按钮 */
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onTpaCommand(org.bukkit.event.player.PlayerCommandPreprocessEvent event) {
+        if (!getConfig().getBoolean("tpa-buttons", true)) return;
+        String msg = event.getMessage().trim();
+        String lower = msg.toLowerCase();
+        String cmd = null, arg = null;
+        if (lower.startsWith("/tpa ")) { cmd = "tpa"; arg = msg.substring(5).trim(); }
+        else if (lower.startsWith("/tpahere ")) { cmd = "tpahere"; arg = msg.substring(9).trim(); }
+        else if (lower.startsWith("/tpa") && lower.length() == 4) return;
+        if (arg == null || arg.isEmpty()) return;
+        String targetName = arg.split(" ")[0];
+        final Player senderP = event.getPlayer();
+        Player target = Bukkit.getPlayerExact(targetName);
+        if (target == null || target.getUniqueId().equals(senderP.getUniqueId())) return;
+        final String fcmd = cmd;
+        getServer().getScheduler().runTaskLater(this, () -> {
+            if (fcmd.equals("tpa")) {
+                sendTpaPrompt(target, senderP.getName());
+            } else {
+                // tpahere: 提示目标点击同意后对方会传送到TA那里
+                net.kyori.adventure.text.Component m = net.kyori.adventure.text.Component.empty()
+                        .append(net.kyori.adventure.text.Component.text("[传送请求] ")
+                                .color(net.kyori.adventure.text.format.NamedTextColor.GOLD))
+                        .append(net.kyori.adventure.text.Component.text(senderP.getName() + " 想让你传送到TA身边!")
+                                .color(net.kyori.adventure.text.format.NamedTextColor.YELLOW))
+                        .append(net.kyori.adventure.text.Component.newline())
+                        .append(net.kyori.adventure.text.Component.text("[ \u2714 点击同意 ]")
+                                .color(net.kyori.adventure.text.format.NamedTextColor.GREEN)
+                                .decorate(net.kyori.adventure.text.format.TextDecoration.BOLD)
+                                .clickEvent(net.kyori.adventure.text.event.ClickEvent.runCommand("/tpaccept")))
+                        .append(net.kyori.adventure.text.Component.text("   "))
+                        .append(net.kyori.adventure.text.Component.text("[ \u2718 点击拒绝 ]")
+                                .color(net.kyori.adventure.text.format.NamedTextColor.RED)
+                                .decorate(net.kyori.adventure.text.format.TextDecoration.BOLD)
+                                .clickEvent(net.kyori.adventure.text.event.ClickEvent.runCommand("/tpdeny")));
+                target.sendMessage(m);
+            }
+        }, 2L);
+    }
+
+    // ============================================================
+    // 矿物保护: 配置的世界里矿物可破坏但无掉落(防透视刷矿)
+    // ============================================================
+
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void onOreBreak(org.bukkit.event.block.BlockBreakEvent event) {
+        if (!getConfig().getBoolean("ore-guard.enabled", false)) return;
+        java.util.List<String> worlds = getConfig().getStringList("ore-guard.worlds");
+        if (!worlds.contains(event.getBlock().getWorld().getName())) return;
+        org.bukkit.Material type = event.getBlock().getType();
+        if (!isOre(type)) return;
+        event.setDropItems(false);
+        event.setExpToDrop(0);
+        if (getConfig().getBoolean("ore-guard.notify", false)) {
+            event.getPlayer().sendMessage(color(getConfig().getString("ore-guard.message",
+                    "&7本世界的矿物已被服务器回收,不掉落物品")));
+        }
+    }
+
+    private boolean isOre(org.bukkit.Material type) {
+        String n = type.name();
+        return n.endsWith("_ORE") || n.equals("ANCIENT_DEBRIS")
+                || n.equals("NETHER_GOLD_ORE") || n.equals("NETHER_QUARTZ_ORE")
+                || n.equals("DEEPSLATE_COAL_ORE") || n.equals("DEEPSLATE_IRON_ORE")
+                || n.equals("DEEPSLATE_GOLD_ORE") || n.equals("DEEPSLATE_DIAMOND_ORE")
+                || n.equals("DEEPSLATE_EMERALD_ORE") || n.equals("DEEPSLATE_LAPIS_ORE")
+                || n.equals("DEEPSLATE_REDSTONE_ORE");
     }
 
     // ============================================================

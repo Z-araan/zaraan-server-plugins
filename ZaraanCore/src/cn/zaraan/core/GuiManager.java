@@ -387,6 +387,11 @@ public class GuiManager implements Listener {
                     player.closeInventory();
                     player.performCommand("tpa " + plainName);
                     player.sendMessage(ZaraanCore.color("&a已向 &f" + plainName + " &a发送传送请求,等待对方接受"));
+                    // 给目标发送可点击的同意/拒绝按钮
+                    org.bukkit.entity.Player target = Bukkit.getPlayerExact(plainName);
+                    if (target != null && !target.getUniqueId().equals(player.getUniqueId())) {
+                        plugin.sendTpaPrompt(target, player.getName());
+                    }
                 } else if (slot == 45) {
                     player.closeInventory();
                     player.performCommand("tpaccept");

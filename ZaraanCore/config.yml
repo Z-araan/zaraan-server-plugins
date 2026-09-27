@@ -200,3 +200,15 @@ spawn-protection:
   prevent-damage: true
   prevent-mob-spawn: true
   message: '&c这里是出生点保护区,不能这么做哦!'
+
+# ========== 矿物保护(可破坏但无掉落) ==========
+# 用途: 防止透视/刷矿外挂获利。开启后指定世界里的矿物能正常挖掉,但不给掉落物。
+ore-guard:
+  # 是否启用(true=生效)
+  enabled: false
+  # 生效的世界列表
+  worlds:
+    - resource
+  # 是否给玩家提示
+  notify: false
+  message: '&7本世界的矿物已被服务器回收,不掉落物品'

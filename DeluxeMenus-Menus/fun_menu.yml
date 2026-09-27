@@ -34,12 +34,12 @@ items:
     slot: 12
     display_name: '&6&l任务中心'
     lore:
-      - '&7挖矿 / 打怪 / 砍树 / 钓鱼 / 种田'
-      - '&7共 10 个日常任务,全部奖励金币'
+      - '&7任务日志 / 任务列表 / 排行 / 统计'
+      - '&7完成获得丰厚奖励!'
       - ''
-      - '&e点击查看任务'
+      - '&e点击打开任务中心'
     left_click_commands:
-      - '[player] quests'
+      - '[openguimenu] quests_menu'
       - '[close]'
 
   crates:
@@ -78,7 +78,7 @@ items:
       - ''
       - '&e点击打开'
     left_click_commands:
-      - '[player] pp'
+      - '[player] pp gui'
       - '[close]'
 
   party:

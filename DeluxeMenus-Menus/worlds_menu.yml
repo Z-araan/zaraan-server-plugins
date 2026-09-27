@@ -38,7 +38,7 @@ items:
       - ''
       - '&e点击传送'
     left_click_commands:
-      - '[player] mvtp world'
+      - '[player] mv tp world'
       - '[close]'
 
   world_resource:
@@ -52,7 +52,7 @@ items:
       - ''
       - '&e点击传送'
     left_click_commands:
-      - '[player] mvtp resource'
+      - '[player] mv tp resource'
       - '[close]'
 
   world_nether:
@@ -64,7 +64,7 @@ items:
       - ''
       - '&e点击传送'
     left_click_commands:
-      - '[player] mvtp world_nether'
+      - '[player] mv tp world_nether'
       - '[close]'
 
   world_end:
@@ -76,7 +76,7 @@ items:
       - ''
       - '&e点击传送'
     left_click_commands:
-      - '[player] mvtp world_the_end'
+      - '[player] mv tp world_the_end'
       - '[close]'
 
   back:
