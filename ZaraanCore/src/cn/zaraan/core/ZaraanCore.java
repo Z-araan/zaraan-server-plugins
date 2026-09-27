@@ -107,7 +107,7 @@ public class ZaraanCore extends JavaPlugin implements Listener {
                 getLogger().warning("PAPI 变量注册失败: " + ex.getMessage());
             }
         }
-        getLogger().info("ZaraanCore v2.1 已启用 | /menu /mtpa /mhome /mpay /mmsg /rtp /team /tc");
+        getLogger().info("ZaraanCore v2.2 已启用 | /menu /mtpa /mhome /mpay /mmsg /mwarp /market /rtp /team /ai");
     }
 
     @Override
@@ -394,14 +394,26 @@ public class ZaraanCore extends JavaPlugin implements Listener {
                 sender.sendMessage(color("&aZaraanCore 已重载"));
             }
             case "menu" -> {
-                if (!(sender instanceof Player p)) { msgPlayerOnly(sender); return; }
-                if (args.length >= 2 && args[1].equalsIgnoreCase("item")) {
-                    p.getInventory().addItem(buildMenuItem());
-                    p.sendMessage(color("&a已获得菜单物品,右键即可打开菜单"));
+                Player target;
+                String sub;
+                if (sender instanceof Player p) {
+                    target = p;
+                    sub = args.length >= 2 ? args[1] : "";
+                } else {
+                    target = args.length >= 2 ? Bukkit.getPlayerExact(args[1]) : null;
+                    sub = args.length >= 3 ? args[2] : "";
+                }
+                if (target == null) {
+                    sender.sendMessage(color("&c玩家不在线或参数不足(用法: /zc menu <玩家> [item])"));
                     return;
                 }
-                giveMenuItem(p);
-                p.performCommand(getConfig().getString("menu-item.open-command", "menu"));
+                if (sub.equalsIgnoreCase("item")) {
+                    target.getInventory().addItem(buildMenuItem());
+                    target.sendMessage(color("&a已获得菜单物品,右键即可打开菜单"));
+                    return;
+                }
+                giveMenuItem(target);
+                target.performCommand(getConfig().getString("menu-item.open-command", "menu"));
             }
             case "capeurl" -> {
                 if (!(sender instanceof Player p)) { msgPlayerOnly(sender); return; }
