@@ -33,7 +33,7 @@ public class GuiManager implements Listener {
         this.plugin = plugin;
     }
 
-    public enum MenuType { TPA, PAY_SELECT, HOME, MSG_SELECT, TEAM, WARP, MARKET, MARKET_SELL, MARKET_MINE }
+    public enum MenuType { TPA, PAY_SELECT, HOME, MSG_SELECT, TEAM, MARKET, MARKET_SELL, MARKET_MINE }
 
     public static class ZaraanHolder implements InventoryHolder {
         public final MenuType type;
@@ -240,35 +240,6 @@ public class GuiManager implements Listener {
             inv.setItem(25, button(Material.WRITABLE_BOOK, "&d&l队伍聊天开关", "&7点击切换 /tc 聊天模式"));
             inv.setItem(26, button(Material.BARRIER, "&c&l关闭", ""));
         }
-        viewer.openInventory(inv);
-    }
-
-    // ==================== /mwarp 私人传送点 ====================
-
-    public void openWarpMenu(Player viewer, int page) {
-        List<String> warps = plugin.listPlayerWarps(viewer);
-        int perPage = 36;
-        int pages = Math.max(1, (int) Math.ceil(warps.size() / (double) perPage));
-        page = Math.min(page, pages - 1);
-        ZaraanHolder holder = new ZaraanHolder(MenuType.WARP, page);
-        Inventory inv = Bukkit.createInventory(holder, 54,
-                ZaraanCore.color("&8私人传送点 &7» &f第 " + (page + 1) + "/" + pages + " 页"));
-        for (int i = 0; i < perPage; i++) {
-            int idx = page * perPage + i;
-            if (idx >= warps.size()) break;
-            String name = warps.get(idx);
-            inv.setItem(i, button(Material.ENDER_EYE, "&5" + name,
-                    "&e左键: 传送过去\n&cShift+右键: 删除该传送点"));
-        }
-        if (warps.isEmpty()) {
-            inv.setItem(13, button(Material.GRAY_DYE, "&7还没有传送点", "&e点击下方「创建传送点」!"));
-        }
-        inv.setItem(45, button(Material.NAME_TAG, "&a&l创建传送点", "&e点击后,在聊天栏输入名字"));
-        inv.setItem(47, button(Material.BOOK, "&7&l使用说明", "&7创建后所有人可见,可传送参观"));
-        inv.setItem(49, button(Material.CLOCK, "&e&l刷新", ""));
-        if (page > 0) inv.setItem(50, button(Material.ARROW, "&b&l上一页", ""));
-        if (page < pages - 1) inv.setItem(52, button(Material.SPECTRAL_ARROW, "&b&l下一页", ""));
-        inv.setItem(53, button(Material.BARRIER, "&c&l关闭", ""));
         viewer.openInventory(inv);
     }
 
@@ -504,36 +475,6 @@ public class GuiManager implements Listener {
                     } else if (slot == 26) {
                         player.closeInventory();
                     }
-                }
-            }
-            case WARP -> {
-                if (slot <= 35) {
-                    if (plainName.isEmpty()) return;
-                    if (event.getClick() == ClickType.SHIFT_RIGHT) {
-                        player.closeInventory();
-                        plugin.deletePlayerWarp(player, plainName);
-                    } else {
-                        player.closeInventory();
-                        plugin.teleportPlayerWarp(player, plainName);
-                    }
-                } else if (slot == 45) {
-                    player.closeInventory();
-                    plugin.requestChatInput(player, "&6请输入传送点名字:", name -> {
-                        name = name.trim();
-                        if (name.isEmpty()) {
-                            player.sendMessage(ZaraanCore.color("&c名字无效"));
-                            return;
-                        }
-                        plugin.createPlayerWarp(player, name);
-                    });
-                } else if (slot == 49) {
-                    openWarpMenu(player, holder.page);
-                } else if (slot == 50) {
-                    openWarpMenu(player, holder.page - 1);
-                } else if (slot == 52) {
-                    openWarpMenu(player, holder.page + 1);
-                } else if (slot == 53) {
-                    player.closeInventory();
                 }
             }
             case MARKET -> {

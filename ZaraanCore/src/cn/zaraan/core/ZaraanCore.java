@@ -82,7 +82,6 @@ public class ZaraanCore extends JavaPlugin implements Listener {
     private GuiManager gui;
     private PartyManager parties;
     private MarketManager market;
-    private SpawnProtection spawnProtection;
 
     @Override
     public void onEnable() {
@@ -93,9 +92,7 @@ public class ZaraanCore extends JavaPlugin implements Listener {
         gui = new GuiManager(this);
         parties = new PartyManager(this);
         market = new MarketManager(this);
-        spawnProtection = new SpawnProtection(this);
         getServer().getPluginManager().registerEvents(this, this);
-        getServer().getPluginManager().registerEvents(spawnProtection, this);
         getServer().getPluginManager().registerEvents(gui, this);
         getServer().getPluginManager().registerEvents(parties, this);
         startAnnounceTask();
@@ -107,7 +104,7 @@ public class ZaraanCore extends JavaPlugin implements Listener {
                 getLogger().warning("PAPI 变量注册失败: " + ex.getMessage());
             }
         }
-        getLogger().info("ZaraanCore v2.2 已启用 | /menu /mtpa /mhome /mpay /mmsg /mwarp /market /rtp /team /ai");
+        getLogger().info("ZaraanCore v2.3 已启用 | /menu /mtpa /mhome /mpay /mmsg /market /rtp /team /ai");
     }
 
     @Override
@@ -193,14 +190,6 @@ public class ZaraanCore extends JavaPlugin implements Listener {
                 }
             }
             case "tc" -> parties.handleChatCommand(sender, args);
-            case "mwarp" -> {
-                if (!(sender instanceof Player p)) return msgPlayerOnly(sender);
-                int page = 0;
-                if (args.length >= 1) {
-                    try { page = Math.max(0, Integer.parseInt(args[0]) - 1); } catch (NumberFormatException ignored) {}
-                }
-                gui.openWarpMenu(p, page);
-            }
             case "market" -> {
                 if (!(sender instanceof Player p)) return msgPlayerOnly(sender);
                 int page = 0;
@@ -258,7 +247,7 @@ public class ZaraanCore extends JavaPlugin implements Listener {
             p.sendMessage(color("&7[AI] &f思考中..."));
             String system = "你是Minecraft服务器「zaraan星火之域」的AI助手小星。用简短中文回答(80字内)。"
                     + "常用命令: /menu菜单 /mtpa传送列表 /mhome家 /mpay转账 /mmsg私聊 /rtp随机传送 /team组队 /tc队聊"
-                    + " /psi签到 /quests任务 /market市场 /mwarp传送点 /shop商店 /sellall hand卖手上物品 /crates抽奖 /bp背包;"
+                    + " /psi签到 /quests任务 /market市场 /pwarp传送点 /shop商店 /sellall hand卖手上物品 /crates抽奖 /bp背包;"
                     + " 经济: 签到有金币和物品, 传送费10-20金币, 死亡保护100金币; 规则: 禁止偷窃破坏他人建筑。"
                     + "只回答服务器和Minecraft相关话题。";
             java.net.http.HttpRequest req = java.net.http.HttpRequest.newBuilder(
@@ -320,48 +309,6 @@ public class ZaraanCore extends JavaPlugin implements Listener {
         StringBuilder q = new StringBuilder();
         for (String a : args) q.append(a).append(' ');
         aiService.ask(p, q.toString().trim());
-    }
-
-    // ==================== 私人传送点(PlayerWarps 集成) ====================
-
-    private Object pwarpStorage() {
-        try {
-            Plugin pw = getServer().getPluginManager().getPlugin("PlayerWarps");
-            if (pw == null) return null;
-            return pw.getClass().getMethod("storage").invoke(pw);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<String> listPlayerWarps(Player viewer) {
-        List<String> names = new ArrayList<>();
-        Object storage = pwarpStorage();
-        if (storage == null) return names;
-        try {
-            java.util.Collection<Object> warps = (java.util.Collection<Object>)
-                    storage.getClass().getMethod("getWarps").invoke(storage);
-            for (Object w : warps) {
-                Object n = w.getClass().getMethod("name").invoke(w);
-                if (n != null) names.add(n.toString());
-            }
-        } catch (Exception ignored) {
-        }
-        names.sort(String.CASE_INSENSITIVE_ORDER);
-        return names;
-    }
-
-    public void createPlayerWarp(Player p, String name) {
-        p.performCommand("pwarp set " + name);
-    }
-
-    public void deletePlayerWarp(Player p, String name) {
-        p.performCommand("pwarp delete " + name);
-    }
-
-    public void teleportPlayerWarp(Player p, String name) {
-        p.performCommand("pwarp " + name);
     }
 
     public MarketManager market() {

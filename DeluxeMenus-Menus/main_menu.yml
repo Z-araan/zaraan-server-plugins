@@ -154,6 +154,19 @@ items:
       - '[player] team'
       - '[close]'
 
+  worlds:
+    material: COMPASS
+    slot: 25
+    display_name: '&b&l世界传送'
+    lore:
+      - '&7主世界 / 资源世界 / 地狱 / 末地'
+      - '&7一键传送到任何世界'
+      - ''
+      - '&7当前: &f%player_world%'
+      - '&e点击进入'
+    left_click_commands:
+      - '[openguimenu] worlds_menu'
+
   close:
     material: BARRIER
     slot: 40

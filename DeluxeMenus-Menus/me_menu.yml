@@ -164,12 +164,10 @@ items:
     lore:
       - '&7把自己家/基地设成传送点'
       - '&7传送到别人的传送点参观'
-      - '&7菜单内创建/删除,不用敲命令'
       - ''
-      - '&e点击打开'
+      - '&e点击打开传送点列表'
     left_click_commands:
-      - '[player] mwarp'
-      - '[close]'
+      - '[player] pwarp'
 
   back:
     material: ARROW

@@ -1,0 +1,87 @@
+# ==========================================
+#  世界传送中心 | zaraan星火之域
+#  依赖: Multiverse-Core (/mvtp)
+# ==========================================
+open_command:
+  - worlds
+  - 世界
+  - 世界传送
+register_command: true
+size: 27
+menu_title: '&8zaraan星火之域 &7» &b世界传送'
+
+items:
+  border:
+    material: LIGHT_BLUE_STAINED_GLASS_PANE
+    display_name: ' '
+    slots:
+      - 0-9
+      - 17-18
+      - 26
+
+  info:
+    material: COMPASS
+    slot: 4
+    display_name: '&b&l世界传送中心'
+    lore:
+      - '&7当前世界: &f%player_world%'
+      - ''
+      - '&7各世界相互独立,物品背包通用'
+      - '&7资源世界用于采集资源'
+
+  world_main:
+    material: GRASS_BLOCK
+    slot: 10
+    display_name: '&a&l主世界'
+    lore:
+      - '&7主要生存世界,建立你的家园'
+      - ''
+      - '&e点击传送'
+    left_click_commands:
+      - '[player] mvtp world'
+      - '[close]'
+
+  world_resource:
+    material: DIAMOND_ORE
+    slot: 12
+    display_name: '&b&l资源世界'
+    lore:
+      - '&7专门采集资源的世界!'
+      - '&7钻石/铁矿/木头随便挖'
+      - '&7会定期重置,不要在这里建家'
+      - ''
+      - '&e点击传送'
+    left_click_commands:
+      - '[player] mvtp resource'
+      - '[close]'
+
+  world_nether:
+    material: NETHERRACK
+    slot: 14
+    display_name: '&c&l地狱'
+    lore:
+      - '&7下界探险: 烈焰棒/石英/下界合金'
+      - ''
+      - '&e点击传送'
+    left_click_commands:
+      - '[player] mvtp world_nether'
+      - '[close]'
+
+  world_end:
+    material: END_STONE
+    slot: 16
+    display_name: '&5&l末地'
+    lore:
+      - '&7挑战末影龙,获取鞘翅!'
+      - ''
+      - '&e点击传送'
+    left_click_commands:
+      - '[player] mvtp world_the_end'
+      - '[close]'
+
+  back:
+    material: ARROW
+    slot: 22
+    display_name: '&e返回主菜单'
+    left_click_commands:
+      - '[openguimenu] main_menu'
