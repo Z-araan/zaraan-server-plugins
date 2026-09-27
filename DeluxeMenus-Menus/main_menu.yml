@@ -124,7 +124,7 @@ items:
       - ''
       - '&e点击签到'
     left_click_commands:
-      - '[player] psi'
+      - '[player] psi signIn'
       - '[close]'
 
   rtp_quick:
