@@ -13,6 +13,20 @@ items:
       - 0-8
       - 27-35
 
+  getmenu:
+    material: NETHER_STAR
+    slot: 11
+    display_name: '&6&l领取菜单物品'
+    lore:
+      - '&7菜单物品放快捷栏,右键直接开菜单'
+      - '&7丢了随时来这里补领!'
+      - ''
+      - '&e点击领取'
+    left_click_commands:
+      - '[console] zc menu %player% item'
+      - '[message] &a已把菜单物品放进你的背包!'
+      - '[close]'
+
   map:
     material: FILLED_MAP
     slot: 10
