@@ -99,7 +99,7 @@ public class ZaraanCore extends JavaPlugin implements Listener {
                 getLogger().warning("PAPI 变量注册失败: " + ex.getMessage());
             }
         }
-        getLogger().info("ZaraanCore v2.0 已启用 | /menu /mtpa /mhome /mpay /rtp /team  ");
+        getLogger().info("ZaraanCore v2.1 已启用 | /menu /mtpa /mhome /mpay /mmsg /rtp /team /tc");
     }
 
     @Override
